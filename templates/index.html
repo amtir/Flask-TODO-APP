@@ -83,7 +83,7 @@
                 <header class="w3-container w3-light-grey">
                     <h3>To Do List</h3>
                 </header>
-                <form action="/add" method="POST">
+                <form action="{{ url_for('todos.add') }}" method="POST">
                 <div class="w3-container">
                     <label for="title">Add Your Task Here</label>
                     <input class="w3-input w3-border" type="text" name="title" placeholder="Enter Todo..">
@@ -106,15 +106,21 @@
                     {% if todo['complete'] == False %}
                         <div id = "todoitem">
                         <p id = "{{todo['id']}}">{{todo['title']}}</p>
-                        <button><a href="/complete/{{todo['id']}}"> <i class="fa fa-check"></i></a></button>
+                        <form action="{{ url_for('todos.complete', todo_id=todo['id']) }}" method="POST" style="display:inline;">
+                            <button type="submit"><i class="fa fa-check"></i></button>
+                        </form>
                         <button onclick="openPopup({{todo['id']}})"><i class="fa fa-pencil"></i></button>
-                        <button><a href="/delete/{{todo['id']}}"><i class="fa fa-trash-o"></i></a></button>
+                        <form action="{{ url_for('todos.delete', todo_id=todo['id']) }}" method="POST" style="display:inline;">
+                            <button type="submit"><i class="fa fa-trash-o"></i></button>
+                        </form>
                         </div>
                     {% else %}
                         <div id = "todoitem_comp">
                         <p id = "{{todo['id']}}"><del>{{todo['title']}}</del></p>
                         <button onclick="openPopup({{todo['id']}})"><i class="fa fa-pencil"></i></button>
-                        <button><a href="/delete/{{todo['id']}}"><i class="fa fa-trash-o"></i></a></button>
+                        <form action="{{ url_for('todos.delete', todo_id=todo['id']) }}" method="POST" style="display:inline;">
+                            <button type="submit"><i class="fa fa-trash-o"></i></button>
+                        </form>
                     </div>
                     {% endif %}
                     
@@ -124,7 +130,7 @@
     </div>
     <div id="popupContainer">
   <div id="popupContent">
-    <form action="/update" method="POST">
+    <form action="{{ url_for('todos.update') }}" method="POST">
         <input type="hidden" id="hiddenField" name="hiddenField">
         <input type="text" id="inputField" placeholder="Enter text" name="inputField">
         <button id="closeButton" type="submit">Update</button>
