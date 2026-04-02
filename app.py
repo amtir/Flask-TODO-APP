@@ -1,10 +1,21 @@
 from flask import Flask, render_template , request , redirect ,url_for
 from tinydb import TinyDB, Query
-import random
 
 app = Flask(__name__)
 #createing typedb
 db = TinyDB('db.json')
+
+
+def _next_todo_id():
+    """Return the next deterministic todo ID.
+
+    Using random IDs can create collisions, which then causes updates/deletes
+    to hit multiple records at once. We avoid that by assigning max(id) + 1.
+    """
+    todo_list = db.all()
+    if not todo_list:
+        return 1
+    return max(item.get("id", 0) for item in todo_list) + 1
 
 
 @app.route("/")
@@ -15,8 +26,11 @@ def root():
 @app.route("/add",methods=["POST"])
 def add():
     #add new item
-    title = request.form.get("title")
-    db.insert({'id':random.randint(0, 1000),'title': title, 'complete': False})
+    title = (request.form.get("title") or "").strip()
+    if not title:
+        return redirect(url_for("root"))
+
+    db.insert({'id': _next_todo_id(), 'title': title, 'complete': False})
     return redirect(url_for("root"))
 
 @app.route("/update",methods=["POST"])
