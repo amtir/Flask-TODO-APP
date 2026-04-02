@@ -91,17 +91,6 @@
                 </div>
                 </form>
 
-                <!--{% for todo in todo_list%}
-                    <p>{{todo['title']}}</p>
-                    {% if todo['complete'] == False %}
-                        <span>Not complete</span>
-                    {% else %}
-                        <span>completed</span>
-                    {% endif %}
-                    <a href="/update/{{todo['id']}}"> <i class="fa fa-pencil"></i></a>
-                    <a href="/delete/{{todo['id']}}"><i class="fa fa-trash-o"></i></a>
-                {% endfor%}-->
-                
                 {% for todo in todo_list %}
                     {% if todo['complete'] == False %}
                         <div id = "todoitem">
