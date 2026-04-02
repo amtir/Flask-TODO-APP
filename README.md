@@ -226,6 +226,16 @@ Install dependencies again in your active virtual environment:
 pip install -r requirements.txt
 ```
 
+### `greenlet` build errors on Python 3.12 (Windows)
+If installation fails while compiling `greenlet==2.0.2`, upgrade to the repo's current dependency set and reinstall:
+
+```powershell
+python -m pip install --upgrade pip
+pip install -r requirements.txt
+```
+
+This repository pins `greenlet==3.0.3`, which provides Python 3.12 compatible wheels.
+
 ### Port 5000 already in use
 Run on another port:
 
